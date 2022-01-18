@@ -1,42 +1,42 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, TextInput, SafeAreaView, StyleSheet, Alert, TouchableOpacity, Image, KeyboardAvoidingView, ImageBackground } from 'react-native';
-import { COLORS, FONTS, icons, images, SIZES } from '../constants';
+import React from "react";
+import { View, StyleSheet, Text, TouchableOpacity,  TextInput, SafeAreaView, Image, ImageBackground } from 'react-native'
+import { SIZES, icons, COLORS, FONTS, images } from '../constants'
 
-const Login = () => {
-   const navigation = useNavigation();
+function Register() {
+
    function renderHeader() {
       return (
          <View
             style={{
-               marginTop: 70,
-               alignItems: "center",
-
+               marginTop: -150,
+               marginBottom: 100,
+               alignItems: "center"
             }}>
             <Text
                style={{
                   fontSize: 80,
                   color: "#000",
                   fontWeight: "bold"
-               }}>Login</Text>
+               }}>Register</Text>
          </View>
       )
    }
 
    function renderInput() {
-
       return (
-         <View>
+         <View
+            style={{
+
+            }}>
             <View
                style={{
                   flexDirection: "row",
-                  marginTop: 100
                }}>
                <View
                   style={{
                      width: "80%",
-                     borderTopRightRadius: 55,
-                     borderBottomRightRadius: 55,
+                     borderTopRightRadius: 105,
+                     borderBottomRightRadius: 105,
                      backgroundColor: "white",
                      zIndex: 0,
                      marginLeft: 0,
@@ -47,13 +47,26 @@ const Login = () => {
                         height: 70,
                         width: "99%",
                         textAlign: "left",
-                        borderBottomWidth: 0.5,
+                        borderBottomWidth: 0.8,
                         fontSize: 25
                      }}
                      //onChangeText={()=>}
                      placeholder="Username"
                      keyboardType="default">
+                  </TextInput>
 
+
+                  <TextInput
+                     style={{
+                        height: 70,
+                        width: "99%",
+                        textAlign: "left",
+                        borderBottomWidth: 0.8,
+                        fontSize: 25
+                     }}
+                     //onChangeText={()=>}
+                     placeholder="Password"
+                     keyboardType="default">
                   </TextInput>
                   <TextInput
                      style={{
@@ -63,19 +76,19 @@ const Login = () => {
                         fontSize: 25
                      }}
                      //onChangeText={()=>}
-                     placeholder="Password"
+                     placeholder="Email"
                      keyboardType="default">
                   </TextInput>
                </View>
                <View
                   style={{
                      position: "absolute",
-                     height: 65,
-                     width: 65,
+                     height: 80,
+                     width: 80,
                      borderRadius: SIZES.radius * 2,
                      backgroundColor: COLORS.primary,
                      right: 44,
-                     top: 39,
+                     top: 64,
                      zIndex: 1,
                      ...styles.shadowContainer,
                      alignItems: "center",
@@ -83,15 +96,13 @@ const Login = () => {
                   }}>
                   <TouchableOpacity
                      style={{
-                        height: 50,
-                        width: 50,
+                        height: 80,
+                        width: 80,
                         alignItems: "center",
                         justifyContent: "center",
-
-                     }}
-                  >
+                     }}>
                      <Image
-                        source={icons.rightArrow}
+                        source={icons.check}
                         style={{
                            height: 35,
                            width: 35
@@ -99,65 +110,30 @@ const Login = () => {
                   </TouchableOpacity>
                </View>
             </View>
-            <Text
-               style={{
-                  fontSize: 20,
-                  marginLeft: 200,
-                  marginTop: 50,
-                  color: "#FF3300",
-                  fontWeight: "bold"
-               }}
-               onPress={() => Alert.alert("Quên mật khẩu")}>Forgot Password ?</Text>
          </View>
-      )
-   }
-   function renderFooter() {
-      return (
-         <TouchableOpacity
-            style={{
-               height: 50,
-               width: 150,
-               borderTopRightRadius: 55,
-               borderBottomRightRadius: 55,
-               alignItems: "center",
-               justifyContent: "center",
-               backgroundColor: COLORS.primary,
-               marginTop: 50,
-               ...styles.shadowContainer,
-            }}
-            onPress={() => navigation.replace("Register")}>
-            <Text
-               style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: "#000"
-               }}>Register</Text>
-         </TouchableOpacity>
       )
    }
 
    return (
       <SafeAreaView
-         style={styles.container}>
+         style={{
+            ...styles.container
+         }}>
          <ImageBackground
+            style={styles.container}
             source={images.bgLog_Reg}
-            resizeMode="stretch"
-            style={{
-               opacity: 0.95,
-               ...styles.container
-            }}>
+            resizeMode="stretch">
             {renderHeader()}
             {renderInput()}
-            {renderFooter()}
          </ImageBackground>
       </SafeAreaView>
    )
-};
+}
 
-export default Login;
 const styles = StyleSheet.create({
    container: {
       flex: 1,
+      justifyContent: "center"
    },
    shadowContainer: {
       shadowColor: "#000",
@@ -166,7 +142,9 @@ const styles = StyleSheet.create({
          height: 0,
       },
       shadowOpacity: 0.3,
-      shadowRadius: SIZES.radius / 2,
-      elevation: 15,
-   }
-})
+      shadowRadius: 25,
+      elevation: 10
+
+   },
+});
+export default Register;

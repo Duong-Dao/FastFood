@@ -1,233 +1,296 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import { View, Text, SafeAreaView, Image, StyleSheet } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import Header from '../components/Header';
 import { COLORS, FONTS, icons, SIZES, images } from '../constants';
-
-
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from "react-redux"
+import { categoryData, restaurantData } from "../constants"
 
 
 export default function HomeScreen() {
-  const categoryData = [{
-    id: 1,
-    name: "Rice",
-    icon: icons.rice_bowl
-  },
-  {
-    id: 2,
-    name: "Sushi",
-    icon: icons.sushi
-  },
-  {
-    id: 3,
-    name: "Salad",
-    icon: icons.salad
-  },
-  {
-    id: 4,
-    name: "Pizza",
-    icon: icons.pizza
-  },
-  {
-    id: 5,
-    name: "Noodle",
-    icon: icons.noodle
-  },
-  {
-    id: 6,
-    name: "Donut",
-    icon: icons.donut
-  },
-  {
-    id: 7,
-    name: "Drink",
-    icon: icons.drink
-  }, {
-    id: 8,
-    name: "Hot-dog",
-    icon: icons.hotdog
-  },
-  {
-    id: 9,
-    name: "Burger",
-    icon: icons.hamburger
-  },
-  {
-    id: 10,
-    name: "Fries",
-    icon: icons.fries
-  },]
+   const navigation = useNavigation();
 
-  const restaurantData = [{
-    id: 1,
-    name: "ByProgrammers Burger",
-    rating: 4.8,
-    categories: [5, 7],
+   //const [categories, setCategories] = useState(categoryData)
+   const [selectedCategory, setSelectedCategory] = useState(null)
+   const [restaurant, setRestaurant] = useState(restaurantData)
+   // hàm chọn danh sách món ăn
+   function onSelectedCategories(catelory) {
+      //lọc danh sách nhà hàng có id món ăn đc chọn
+      let restaurantList = restaurantData.filter(i =>
+         i.categories.includes(catelory.id))
+      setRestaurant(restaurantList)
+      setSelectedCategory(catelory)
+   }
+   function renderHeader() {
+      const cart = useSelector(state => state.cart)
+      return (
+         <View
+            style={{
+               flexDirection: 'row',
+               height: 50,
+               marginVertical: SIZES.padding
+            }}>
+            {/**phím bên trái */}
 
-    photo: images.japanese_restaurant,
-    duration: "30 - 45 min",
-    menu: [
-      {
-        menuId: 1,
-        name: "Crispy Chicken Burger",
-        photo: images.crispy_chicken_burger,
-        description: "Burger with crispy chicken, cheese and lettuce",
-        calories: 200,
-        price: 10
-      },
-      {
-        menuId: 2,
-        name: "Crispy Chicken Burger with Honey Mustard",
-        photo: images.honey_mustard_chicken_burger,
-        description: "Crispy Chicken Burger with Honey Mustard Coleslaw",
-        calories: 250,
-        price: 15
-      },
-      {
-        menuId: 3,
-        name: "Crispy Baked French Fries",
-        photo: images.baked_fries,
-        description: "Crispy Baked French Fries",
-        calories: 194,
-        price: 8
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: "ByProgrammers Burger",
-
-    categories: [5, 7],
-
-    photo: images.burger_restaurant_1,
-    duration: "30 - 45 min",
-    menu: [
-      {
-        menuId: 1,
-        name: "Crispy Chicken Burger",
-        photo: images.crispy_chicken_burger,
-        description: "Burger with crispy chicken, cheese and lettuce",
-        calories: 200,
-        price: 10
-      },
-      {
-        menuId: 2,
-        name: "Crispy Chicken Burger with Honey Mustard",
-        photo: images.honey_mustard_chicken_burger,
-        description: "Crispy Chicken Burger with Honey Mustard Coleslaw",
-        calories: 250,
-        price: 15
-      },
-      {
-        menuId: 3,
-        name: "Crispy Baked French Fries",
-        photo: images.baked_fries,
-        description: "Crispy Baked French Fries",
-        calories: 194,
-        price: 8
-      }
-    ]
-  },]
-
-  const [categories, setCategories] = useState(categoryData)
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [restaurant, setRestaurant] = useState(restaurantData)
-
-  function onSelectedCategories(catelory) {
-    //fillter restaurant data
-    let restaurantList = restaurantData.filter(i =>
-      i.categories.includes(catelory.id))
-    setRestaurant(restaurantList)
-
-
-    setSelectedCategory(catelory)
-  }
-
-  function renderMainCategory() {
-    return (
-      <View>
-        <View style={{
-          marginVertical: 20,
-          marginHorizontal: 20
-        }}>
-          <Text style={{
-            ...FONTS.h1,
-            fontSize: SIZES.h3,
-            textTransform: "uppercase"
-          }}
-          >
-            menu categories
-          </Text>
-        </View>
-        <FlatList
-          data={categoryData}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
             <TouchableOpacity
-              style={{
-                borderRadius: SIZES.radius,
-                alignItems: "center",
-                justifyContent: "center",
-                padding: SIZES.padding,
-                paddingBottom: SIZES.padding * 2,
-                marginRight: SIZES.padding,
-                backgroundColor: (selectedCategory?.id === item.id) ? COLORS.primary : COLORS.white,
-                width: 80,
-              }}
-              onPress={() => onSelectedCategories(item)}>
-              <View
-                style={{
+               //onPress={() => navigation.goBack()}
+               style={{
+                  height: 50,
+                  width: 50,
+                  paddingLeft: SIZES.padding * 2,
+                  justifyContent: 'center',
+               }}>
+               <Image
+                  source={icons.user}
+                  style={{
+                     height: 30,
+                     width: 30,
+                  }}
+                  resizeMode="contain"
+               />
+            </TouchableOpacity>
+            {/** Khung hiển thị ở giữa */}
+            <View
+               style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+
+               }}>
+               <View
+                  style={{
+                     width: '80%',
+                     height: '100%',
+                     backgroundColor: COLORS.white,
+                     borderRadius: SIZES.radius,
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     ...styles.shadows
+                  }}>
+                  <Text style={{ ...FONTS.h3 }}>Welcome</Text>
+               </View>
+            </View>
+            {/** phím bên phải */}
+            <View style={{ padding: 5 }}>
+               <View style={{
+                  position: 'absolute',
+                  height: 25,
+                  width: 25,
+                  borderRadius: 15,
+                  backgroundColor: COLORS.primary,
+                  right: 35,
+                  bottom: 25,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 2000,
+               }}>
+                  <Text style={{
+                     color: 'white',
+                     fontWeight: 'bold'
+                  }}>{cart.food.length}</Text>
+               </View>
+               <TouchableOpacity
+                  style={{
+                     height: 50,
+                     width: 50,
+                     paddingRight: SIZES.padding,
+                     justifyContent: 'center',
+                  }}
+                  onPress={() => navigation.navigate("Cart")}>
+                  <Image
+                     source={icons.myCart}
+                     style={{
+                        height: 30,
+                        width: 30,
+                        resizeMode: "contain"
+                     }}
+                  />
+               </TouchableOpacity>
+            </View>
+         </View>
+      );
+   }
+
+   function renderMenuCategory() {
+
+      const renderItem = ({ item }) => (
+         <TouchableOpacity
+            style={{
+               borderRadius: SIZES.radius,
+               alignItems: "center",
+               justifyContent: "center",
+               padding: SIZES.padding,
+               paddingBottom: SIZES.padding * 2,
+               marginRight: SIZES.padding,
+               backgroundColor: (selectedCategory?.id === item.id) ? COLORS.primary : COLORS.white,
+               width: 70,
+               ...styles.shadows,
+            }}
+            onPress={() => onSelectedCategories(item)}>
+            <View
+               style={{
                   alignItems: "center",
                   justifyContent: "center",
                   height: 50,
                   width: 50,
                   borderRadius: 25,
                   backgroundColor: COLORS.white
-                }}>
-                <Image
+               }}>
+               <Image
                   source={item.icon}
                   resizeMode="contain"
                   style={{
-                    height: 30,
-                    width: 30
+                     height: 30,
+                     width: 30
                   }}
-                ></Image>
-              </View>
-              <Text
-                style={{
+               ></Image>
+            </View>
+
+            <Text
+               style={{
                   ...FONTS.h5,
                   marginTop: 10
-                }}>{item.name}</Text>
+               }}>{item.name}</Text>
+         </TouchableOpacity>
+      )
+      return (
+         <View>
+            <View
+               style={{
+                  marginVertical: 20,
+                  marginHorizontal: 20
+               }}>
+               <Text
+                  style={{
+                     ...FONTS.h1,
+                     fontSize: SIZES.h3,
+                     textTransform: "uppercase"
+                  }}
+               >
+                  menu categories
+               </Text>
+            </View>
+            <FlatList
+               data={categoryData}
+               horizontal
+               showsHorizontalScrollIndicator={false}
+               keyExtractor={item => item.id.toString()}
+               renderItem={renderItem}
+               contentContainerStyle={{
+                  paddingHorizontal: SIZES.padding * 2,
+                  paddingVertical: SIZES.padding
+               }}
+            >
+            </FlatList>
+         </View>
+      );
+   }
+
+   function renderMenuRestaurant() {
+
+      const renderItem = ({ item }) => (
+         <View
+            style={{
+               paddingBottom: SIZES.padding,
+               marginBottom: SIZES.padding,
+
+            }}>
+            <TouchableOpacity
+               style={{
+                  marginBottom: SIZES.padding,
+               }}
+
+               onPress={() => navigation.navigate("Info", {
+                  id: item.id,
+                  images: item.photo,
+                  name: item.name,
+                  price: item.price,
+                  description: item.description
+               })}
+            >
+               <View
+                  style={{
+                     borderWidth: 0.5,
+                     borderRadius: SIZES.radius
+                  }}>
+                  <Image
+                     source={item.photo}
+                     resizeMode="cover"
+                     style={{
+                        width: "100%",
+                        height: 300,
+                        borderRadius: SIZES.radius,
+                     }}
+                  >
+                  </Image>
+                  <View
+                     style={{
+                        position: "absolute",
+                        bottom: 0,
+                        height: 50,
+                        width: SIZES.width * 0.35,
+                        backgroundColor: COLORS.white,
+                        borderTopRightRadius: SIZES.radius,
+                        borderBottomLeftRadius: SIZES.radius,
+                        alignContent: "center",
+                        justifyContent: "center",
+                        //borderWidth: 0.4
+
+                     }}>
+                     <Text
+                        style={{
+                           ...FONTS.body2,
+                           textAlign: "center",
+                           fontWeight: "bold"
+                        }}>${item.price}</Text>
+                  </View>
+
+               </View>
+
             </TouchableOpacity>
-          )}
-        >
-        </FlatList>
-
-
-      </View>
-    );
-  }
-
-  function renderMenuRestaurant() {
-    return (
-      <FlatList
-        data={restaurantData}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) =>
-        (
-          <TouchableOpacity>
-          </TouchableOpacity>
-        )}
-      ></FlatList>
-    )
-  }
-  return (
-    <SafeAreaView>
-      <Header />
-      {renderMainCategory()}
-      {renderMenuRestaurant()}
-    </SafeAreaView>
-  );
+            <Text
+               style={{
+                  ...FONTS.body2,
+                  textAlign: "center",
+                  paddingBottom: SIZES.padding
+               }}>{item.name}</Text>
+         </View>
+      )
+      return (
+         <FlatList
+            data={restaurant}
+            keyExtractor={item => item.id.toString()}
+            renderItem={renderItem}
+            style={{
+               paddingHorizontal: SIZES.padding,
+               flex: 1
+            }}
+         />
+      )
+   }
+   return (
+      <SafeAreaView style={styles.container}>
+         {renderHeader()}
+         {renderMenuCategory()}
+         {renderMenuRestaurant()}
+      </SafeAreaView>
+   );
 }
+
+const styles = StyleSheet.create({
+   container: {
+      flex: 1,
+      backgroundColor: COLORS.lightGray4
+   },
+   shadows: {
+      shadowColor: "#000",
+      shadowOffset: {
+         height: 3,
+         width: 0
+      },
+      shadowRadius: 3,
+      shadowOpacity: 0.1,
+      elevation: 10,
+
+   }
+})

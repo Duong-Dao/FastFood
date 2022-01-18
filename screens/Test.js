@@ -1,31 +1,34 @@
 import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import React, { useState } from 'react';
 import {
-   Alert, Animated, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View
+   Alert, Image, SafeAreaView,
+   FlatList, StyleSheet, Text, TouchableOpacity, View, Animated, ToastAndroid
 } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 import { useDispatch, useSelector } from 'react-redux';
 import CustomCart from '../components/CustomCart';
-import { COLORS, icons, SIZES } from '../constants';
+import { COLORS, icons, restaurantData, SIZES } from '../constants';
 import { removeItemFromCart } from '../redux/actions/actions';
+//import { decrement, increment, removeItemFromCart } from '../redux/actions/actions';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 
-
-
-export default function CartScreen() {
+export default function Info() {
    //khai báo các hàm cần sử dụng
-   const navigation = useNavigation()
+   //const navigation = useNavigation()
    const cart = useSelector(state => state.cart)
    const dispatch = useDispatch()
 
 
    //xoá item
-   const removeItem = ({ item }) => {
-
+   const removeItem = (id) => {
       //action
-      const action = removeItemFromCart(item.id)
+      const action = removeItemFromCart(id)
       //dispatch
       dispatch(action)
+
+      //
+      Alert.alert("Xong")
    }
    const renderRightAction = (progress, dragX, onClick) => {
 
@@ -45,7 +48,7 @@ export default function CartScreen() {
             style={[Style, {
                alignItems: "center",
                justifyContent: "center",
-               backgroundColor: "#FFCC66",
+               backgroundColor: "cyan",
                width: 90,
                height: "100%"
             }]}>
@@ -66,7 +69,6 @@ export default function CartScreen() {
 
    //Render từng item trong danh sách 
    const renderItem = ({ item }, onClick) => {
-
       return (
          <Swipeable
             renderRightActions={(progress, dragX) => renderRightAction(progress, dragX, onClick)}>
@@ -97,7 +99,7 @@ export default function CartScreen() {
                   marginLeft: 20
 
                }}
-               onPress={() => navigation.goBack()}
+            //onPress={() => navigation.goBack()}
             >
                <Image
                   source={icons.back}
@@ -115,7 +117,7 @@ export default function CartScreen() {
                bottom: 0,
                width: "100%",
                height: "85%",
-               backgroundColor: "#FFCC66",
+               backgroundColor: "white",
                borderTopLeftRadius: 25,
                borderTopRightRadius: 25,
                alignItems: "center"
@@ -136,8 +138,8 @@ export default function CartScreen() {
 
 
                <FlatList
-                  data={cart.food}
-                  renderItem={(item) => renderItem(item, () => removeItem(item))}
+                  data={restaurantData}
+                  renderItem={(item) => renderItem(item, () => { removeItem(item.id) })}
                   keyExtractor={item => item.id.toString()}
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{
@@ -152,51 +154,18 @@ export default function CartScreen() {
                   bottom: 80,
                   height: "20%",
                   width: "95%",
-                  backgroundColor: "#FFCC66",
-                  borderWidth: 0.4,
-                  borderRadius: SIZES.radius / 2,
-                  padding: SIZES.padding,
-                  ...styles.shadows,
-                  flexDirection: "column"
-               }}>
+                  backgroundColor: "cyan",
 
+               }}>
+               {/* Cot ben trai */}
                <View
                   style={{
                      flexDirection: "row",
                      justifyContent: "space-between"
                   }}>
                   <Text>Total</Text>
-                  <Text>$1000</Text>
-
+                  <Text>111111</Text>
                </View>
-               <View
-                  style={{
-                     height: 0,
-                     width: "100%",
-                     borderWidth: 1,
-                     position: "absolute",
-                     bottom: 35,
-                     marginLeft: 10
-                  }}></View>
-               <View
-                  style={{
-                     height: 20,
-                     width: "100%",
-
-                     position: "absolute",
-                     bottom: 10,
-                     marginLeft: 10
-                  }}>
-                  <View
-                     style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between"
-                     }}>
-                     <Text>Total</Text>
-                     <Text>$1000</Text>
-                  </View>
-               </View>
-
 
             </View>
             <TouchableOpacity

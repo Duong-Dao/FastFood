@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, ActivityIndicator, Image} from 'react-native';
-import {images} from '../constants';
+import {COLORS, images} from '../constants';
 
 export default function SplashScreen() {
   return (
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#b2958f',
+    backgroundColor: COLORS.primary
   },
 });
