@@ -14,13 +14,7 @@ const User = () => {
                backgroundColor: COLORS.white,
                height: 20
             }}>
-            {/* <Text
-               style={{
-                  ...FONTS.h3,
-                  textAlign: "center",
-                  justifyContent: "center",
-                  alignItems: "center"
-               }}>Chỗ này chưa biết làm gì</Text> */}
+            
          </View>
       );
    }

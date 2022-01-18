@@ -10,12 +10,12 @@ import { categoryData, restaurantData } from "../constants"
 export default function HomeScreen() {
    const navigation = useNavigation();
 
-   //const [categories, setCategories] = useState(categoryData)
+   
    const [selectedCategory, setSelectedCategory] = useState(null)
    const [restaurant, setRestaurant] = useState(restaurantData)
-   // hàm chọn danh sách món ăn
+   
    function onSelectedCategories(catelory) {
-      //lọc danh sách nhà hàng có id món ăn đc chọn
+      
       let restaurantList = restaurantData.filter(i =>
          i.categories.includes(catelory.id))
       setRestaurant(restaurantList)
@@ -30,7 +30,7 @@ export default function HomeScreen() {
                height: 50,
                marginVertical: SIZES.padding
             }}>
-            {/**phím bên trái */}
+            
 
             <TouchableOpacity
                //onPress={() => navigation.goBack()}
@@ -49,7 +49,7 @@ export default function HomeScreen() {
                   resizeMode="contain"
                />
             </TouchableOpacity>
-            {/** Khung hiển thị ở giữa */}
+            
             <View
                style={{
                   flex: 1,
@@ -70,7 +70,7 @@ export default function HomeScreen() {
                   <Text style={{ ...FONTS.h3 }}>Welcome</Text>
                </View>
             </View>
-            {/** phím bên phải */}
+           
             <View style={{ padding: 5 }}>
                <View style={{
                   position: 'absolute',
@@ -234,8 +234,7 @@ export default function HomeScreen() {
                         borderBottomLeftRadius: SIZES.radius,
                         alignContent: "center",
                         justifyContent: "center",
-                        //borderWidth: 0.4
-
+                        
                      }}>
                      <Text
                         style={{
